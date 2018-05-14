@@ -54,9 +54,9 @@
                     <tbody>
                         @forelse($users AS $user)
                             <tr onclick="toggleChecked('{{ $user->id }}')">
-                                <th scope="row" class="text-center">{{ $loop->iteration }}</th>
-                                <td>{{ $user->fullname }}</td>
-                                <td>{{ $user->email }}</td>
+                                <th scope="row" class="text-center">{{ $loop->iteration + $offset }}</th>
+                                <td align="center">{{ $user->fullname }}</td>
+                                <td align="center">{{ $user->email }}</td>
                                 <td class="text-center">{{ $user->roles[0]->display_name }}
                                 <td align="center">{{ $user->created_at->formatLocalized('%e %h %Y, %I:%M %p') }}</td>
                             </tr>
@@ -67,6 +67,10 @@
                         @endforelse
                     </tbody>
                 </table>
+
+                <nav>
+                    {{ $users->links() }}
+                </nav>
             </div>
         </div>
     </div>

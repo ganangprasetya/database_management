@@ -13,6 +13,7 @@ use App\Order;
 use App\OrderPayment;
 use App\Customer;
 use Carbon\Carbon;
+use DB;
 
 class HomeController extends Controller
 {

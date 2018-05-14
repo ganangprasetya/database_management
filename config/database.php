@@ -54,13 +54,13 @@ return [
             'engine' => null,
         ],
 
-        'mysql2' => [
+        'csr' => [
             'driver' => 'mysql',
-            'host' => '192.168.10.10',
+            'host' => '127.0.0.1',
             'port' => '3306',
-            'database' => 'personal-shopper2',
-            'username' => 'homestead',
-            'password' => 'secret',
+            'database' => 'csr',
+            'username' => 'root',
+            'password' => '',
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
@@ -68,6 +68,21 @@ return [
             'strict' => true,
             'engine' => null,
         ],
+
+        // 'mysql2' => [
+        //     'driver' => 'mysql',
+        //     'host' => '192.168.10.10',
+        //     'port' => '3306',
+        //     'database' => 'personal-shopper2',
+        //     'username' => 'homestead',
+        //     'password' => 'secret',
+        //     'unix_socket' => env('DB_SOCKET', ''),
+        //     'charset' => 'utf8mb4',
+        //     'collation' => 'utf8mb4_unicode_ci',
+        //     'prefix' => '',
+        //     'strict' => true,
+        //     'engine' => null,
+        // ],
 
         'pgsql' => [
             'driver' => 'pgsql',

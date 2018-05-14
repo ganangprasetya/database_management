@@ -70,13 +70,13 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link{{ ((Request::segment(2) == "databases") && (Request::segment(3) == "create")) ? ' active':'' }}" href="#">Assign Database</a>
+                            <a class="nav-link{{ ((Request::segment(2) == "databases") && (Request::segment(3) == "create")) ? ' active':'' }}" href="{{ route('databases.create') }}">Create Database</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link{{ ((Request::segment(2) == "databases") && (Request::segment(3) == "manage")) ? ' active':'' }}" href="#">Manage Databases</a>
+                            <a class="nav-link{{ ((Request::segment(2) == "databases") && (Request::segment(3) == "manage")) ? ' active':'' }}" href="{{ route('databases.manage') }}">Manage Databases</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link{{ ((Request::segment(2) == "databases") && (Request::segment(3) == "lists")) ? ' active':'' }}" href="#">List Databases</a>
+                            <a class="nav-link{{ ((Request::segment(2) == "databases") && (Request::segment(3) == "assign")) ? ' active':'' }}" href="#">Assign Database</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link{{ ((Request::segment(2) == "databases") && (Request::segment(3) == "user")) ? ' active':'' }}" href="#">User Databases</a>

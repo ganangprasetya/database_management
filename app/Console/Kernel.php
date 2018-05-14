@@ -28,12 +28,12 @@ class Kernel extends ConsoleKernel
     {
         $log_path = storage_path('logs/crontab.log');
 
-        $schedule->command('send:orders')
-                 ->everyMinute();
-        $schedule->command('check:payments')
-                 ->everyMinute();
-        $schedule->command('remind:customers')
-                 ->everyFiveMinutes();
+        // $schedule->command('send:orders')
+        //          ->everyMinute();
+        // $schedule->command('check:payments')
+        //          ->everyMinute();
+        // $schedule->command('remind:customers')
+        //          ->everyFiveMinutes();
     }
 
     /**

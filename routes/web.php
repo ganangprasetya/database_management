@@ -45,5 +45,11 @@ Route::middleware(['auth', 'role:administrator|user'])->group(function(){
             Route::get('users/lists', 'UsersController@lists')->name('users.list');
             Route::get('users/lists/exportxls', 'UsersController@exportxls')->name('users.xls');
             Route::get('users/manage', 'UsersController@index')->name('users.manage');
+
+            //database management
+            Route::resource('databases', 'DatabaseController', ['except' => [
+                'show'
+            ]]);
+            Route::get('databases/manage', 'DatabaseController@index')->name('databases.manage');
         });
 });
