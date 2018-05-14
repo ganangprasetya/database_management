@@ -2,7 +2,7 @@
     <div class="container-fluid nav-top" id="navTop">
         <nav class="navbar navbar-expand-lg main-navbar">
             <div class="btn-rooms ml-2">
-                Personal Shopper
+                project sms
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -76,10 +76,10 @@
                             <a class="nav-link{{ ((Request::segment(2) == "databases") && (Request::segment(3) == "manage")) ? ' active':'' }}" href="{{ route('databases.manage') }}">Manage Databases</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link{{ ((Request::segment(2) == "databases") && (Request::segment(3) == "assign")) ? ' active':'' }}" href="#">Assign Database</a>
+                            <a class="nav-link{{ ((Request::segment(2) == "databases") && (Request::segment(3) == "assign")) ? ' active':'' }}" href="{{ route('databases.assign') }}">Assign Databases</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link{{ ((Request::segment(2) == "databases") && (Request::segment(3) == "user")) ? ' active':'' }}" href="#">User Databases</a>
+                            <a class="nav-link{{ ((Request::segment(2) == "databases") && (Request::segment(3) == "userdb")) ? ' active':'' }}" href="{{ route('databases.userdb') }}">User Databases</a>
                         </li>
                     </ul>
                 </div>

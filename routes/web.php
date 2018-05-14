@@ -51,5 +51,12 @@ Route::middleware(['auth', 'role:administrator|user'])->group(function(){
                 'show'
             ]]);
             Route::get('databases/manage', 'DatabaseController@index')->name('databases.manage');
+            Route::get('databases/userdb', 'DatabaseController@userDB')->name('databases.userdb');
+            Route::get('databases/userdb/{id}', 'DatabaseController@EditAssign')->name('databases.editassign');
+            Route::put('databases/userdb/{id}', 'DatabaseController@UpdateAssign')->name('databases.updateassign');
+            Route::delete('databases/userdb/{id}', 'DatabaseController@DeleteAssign')->name('databases.deleteassign');
+            Route::get('databases/assign', 'DatabaseController@AssignUser')->name('databases.assign');
+            Route::get('databases/assign/{id}', 'DatabaseController@AssignForm')->name('databases.assignform');
+            Route::put('databases/assign/{id}', 'DatabaseController@AddAssign')->name('databases.addassign');
         });
 });

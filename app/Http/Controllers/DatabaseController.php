@@ -12,6 +12,7 @@ use Excel;
 use Auth;
 use App\Database;
 use App\UserDatabase;
+use App\User;
 
 class DatabaseController extends Controller
 {
@@ -23,7 +24,6 @@ class DatabaseController extends Controller
      */
     public function index(Request $request)
     {
-        
         $paginate_limit = env('PAGINATE_LIMIT', 10);
 
         // search roles
@@ -77,6 +77,7 @@ class DatabaseController extends Controller
             'name' => 'required|string|max:255',
             'host' => 'required|string|max:255',
             'port' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'password' => 'string|nullable',
             'note' => 'string|nullable'
         ]);
@@ -100,8 +101,6 @@ class DatabaseController extends Controller
      */
     public function show($id)
     {
-        $database = Database::findOrFail($id);
-        return view(self::VIEW_PATH.'.edit')->with(compact('database'));
     }
 
     /**
@@ -112,7 +111,8 @@ class DatabaseController extends Controller
      */
     public function edit($id)
     {
-        //
+        $database = Database::findOrFail($id);
+        return view(self::VIEW_PATH.'.edit')->with(compact('database'));
     }
 
     /**
@@ -124,7 +124,25 @@ class DatabaseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $database = Database::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'host' => 'required|string|max:255',
+            'port' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
+            'password' => 'string|nullable',
+            'note' => 'string|nullable'
+        ])->validate();
+        $database->name = $request->name;
+        $database->host = $request->host;
+        $database->port = $request->port;
+        $database->username = $request->username;
+        $database->password = $request->password;
+        $database->note = $request->note;
+        $database->save();
+        alert()->success('Database '.$request->name.' has been edited!', 'Success');
+        return back();
     }
 
     /**
@@ -135,6 +153,122 @@ class DatabaseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $database = Database::destroy($id);
+
+        return redirect()->route('databases.index');
     }
+
+    public function userDB(Request $request)
+    {
+        $paginate_limit = env('PAGINATE_LIMIT', 10);
+
+        // search roles
+        $users = User::whereHas('database')->latest()->paginate($paginate_limit);
+        if(count($request->query()) > 0){
+            $filter = $request->query('filter');
+            $keyword = $request->query('keyword');
+
+            switch($filter){
+                case "name":
+                    $users = User::where('fullname', 'like', '%'.$keyword.'%')->whereHas('database')->latest()->paginate($paginate_limit);
+                    break;
+                default:
+                    $users = User::where('fullname', 'like', '%'.$keyword.'%')->whereHas('database')->latest()->paginate($paginate_limit);
+            }
+        }
+
+        $offset = $users->perPage() * ($users->currentPage() - 1);
+
+        return view(self::VIEW_PATH.'.userdb')->with(compact('users', 'offset'));
+    }
+
+    public function EditAssign($id)
+    {
+        $user = User::findOrFail($id);
+        $old_databases = implode(', ', UserDatabase::with('database')->where('user_id', $id)->get()->pluck('database.id')->toArray());
+        $old_databases_name = implode(', ', UserDatabase::with('database')->where('user_id', $id)->get()->pluck('database.name')->toArray());
+        $databases = Database::all();
+        return view(self::VIEW_PATH.'.editassign')->with(compact('databases','user','old_databases','old_databases_name'));
+    }
+    
+    public function UpdateAssign(Request $request, $id)
+    {
+        $database_id = $request->user_database;
+        if($database_id  != NULL){
+            UserDatabase::where('user_id', $id)->delete();
+            foreach($database_id as $userdatabase)
+            {
+                UserDatabase::create([
+                    'user_id' => $id,
+                    'database_id' => $userdatabase
+                ]);
+
+            }
+
+        }else{
+            $old_database_id = explode(',', $request->user_database1);
+            UserDatabase::where('user_id', $id)->delete();
+            foreach($old_database_id as $userdatabase)
+            {
+                UserDatabase::create([
+                    'user_id' => $id,
+                    'database_id' => $userdatabase
+                ]);
+
+            }
+        }
+        alert()->success('User Databases has been updated!', 'Success');
+        return redirect()->route('databases.userdb');
+    }
+
+    public function DeleteAssign($id)
+    {
+        UserDatabase::where('user_id', $id)->delete();
+        return redirect()->route('databases.userdb');
+    }
+
+    public function AssignUser(Request $request)
+    {
+        $paginate_limit = env('PAGINATE_LIMIT', 10);
+
+        // search roles
+        $users = User::doesntHave('database')->latest()->paginate($paginate_limit);
+        if(count($request->query()) > 0){
+            $filter = $request->query('filter');
+            $keyword = $request->query('keyword');
+
+            switch($filter){
+                case "name":
+                    $users = User::where('fullname', 'like', '%'.$keyword.'%')->whereHas('database')->latest()->paginate($paginate_limit);
+                    break;
+                default:
+                    $users = User::where('fullname', 'like', '%'.$keyword.'%')->whereHas('database')->latest()->paginate($paginate_limit);
+            }
+        }
+
+        $offset = $users->perPage() * ($users->currentPage() - 1);
+        return view(self::VIEW_PATH.'.assignuser')->with(compact('users', 'offset'));
+    }
+
+    public function AssignForm(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $databases = Database::all();
+        return view(self::VIEW_PATH.'.addassign')->with(compact('databases','user'));
+    }
+
+    public function AddAssign(Request $request,$id)
+    {
+        $database_id = $request->user_database;
+        foreach($database_id as $userdatabase)
+        {
+            UserDatabase::create([
+                'user_id' => $id,
+                'database_id' => $userdatabase
+            ]);
+        }
+        alert()->success('User Databases has been Added!', 'Success');
+        return redirect()->route('databases.assignuser');
+    }
+
 }
