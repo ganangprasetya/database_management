@@ -1,0 +1,19 @@
+.breadcrumb{
+    padding: 0;
+    background: none;
+    font: {
+        family: $font;
+    }
+
+    a{
+        color: $bg-abutua;
+    }
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: ">";
+    }
+    .breadcrumb-item{
+        &.active{
+            color: $bg-abutua;
+        }
+    }
+}

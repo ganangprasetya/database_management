@@ -1,0 +1,205 @@
+.nav-top{
+    background-color: $bg-hitam;
+    border-top: 1px solid $bordertop-abu;
+    box-shadow: 0px 2px 8px rgba($bg-hitam, 0.3);
+}
+.nav-middle{
+    background-color: $bg-abutua;
+    border-top: 1px solid $bordertop-abu;
+    height: 45px;
+}
+.nav-bottom{
+    background-color: $bg-abumuda;
+    border-top: 1px solid $bordertop-abu;
+    height: 45px;
+
+    .main-navbar{
+        .nav-item{
+            .nav-link{
+                color: $bg-hitam;
+            }
+        }
+    }
+}
+.main-navbar{
+    margin: auto;
+    width: $container-width;
+    min-height: 44px;
+    color: #999999;
+    font-family: $font;
+    padding: 0;
+
+    a{
+        font-size: 12pt;
+    }
+    .nav-item{
+        .nav-link{
+            text-transform: uppercase;
+            color: #999999;
+
+            &:hover{
+                color: $bg-orange;
+            }
+
+            &.active{
+                color: $bg-orange;
+
+                &.nav-profile{
+                    .icon-profile{
+                        background: {
+                            image: url("/icons/bt_profile_on.svg");
+                        }
+                    }
+                }
+                &.nav-workstation{
+                    .icon-workstation{
+                        background: {
+                            image: url("/icons/bt_workstation_on.svg");
+                        }
+                    }
+                }
+                &.nav-broadcast{
+                    .icon-broadcast{
+                        background: {
+                            image: url("/icons/bt_broadcast_on.svg");
+                        }
+                    }
+                }
+                &.nav-location{
+                    .icon-location{
+                        background: {
+                            image: url("/icons/bt_location_on.svg");
+                        }
+                    }
+                }
+                &.nav-masterdata{
+                    .icon-masterdata{
+                        background: {
+                            image: url("/icons/bt_masterdata_on.svg");
+                        }
+                    }
+                }
+            }
+        }
+        .nav-profile{
+            &:hover{
+                .icon-profile{
+                    background: {
+                        image: url("/icons/bt_profile_on.svg");
+                    }
+                }
+            }
+        }
+        .nav-workstation{
+            &:hover{
+                .icon-workstation{
+                    background: {
+                        image: url("/icons/bt_workstation_on.svg");
+                    }
+                }
+            }
+        }
+        .nav-broadcast{
+            &:hover{
+                .icon-broadcast{
+                    background: {
+                        image: url("/icons/bt_broadcast_on.svg");
+                    }
+                }
+            }
+        }
+        .nav-location{
+            &:hover{
+                .icon-location{
+                    background: {
+                        image: url("/icons/bt_location_on.svg");
+                    }
+                }
+            }
+        }
+        .nav-masterdata{
+            &:hover{
+                .icon-masterdata{
+                    background: {
+                        image: url("/icons/bt_masterdata_on.svg");
+                    }
+                }
+            }
+        }
+    }
+}
+.corner-menu{
+    padding: 11px 0;
+
+    a{
+        font: {
+            family: gothic;
+            size: 10pt;
+        }
+        color:#2ca7e3;
+    }
+
+    .dropdown-menu{
+        a{
+            color: $bg-abutua;
+        }
+    }
+
+}
+.icon-wrapper{
+    float: left;
+    width: 20px;
+    height: 25px;
+    margin-right: 8px;
+    position: relative;
+    background: {
+        repeat: no-repeat;
+        size: 20px 20px;
+        position: 0 2px;
+    }
+}
+.icon-user{
+    @extend .icon-wrapper;
+    background: {
+        image: url("/icons/bt_user_on.svg");
+        position: 0 0;
+    }
+}
+.icon-logout{
+    @extend .icon-wrapper;
+    background: {
+        image: url("/icons/bt_log_on.svg");
+        position: 0 0;
+    }
+}
+
+.icon-profile{
+    @extend .icon-wrapper;
+    background: {
+        image: url("/icons/bt_profile_off.svg");
+    }
+}
+.icon-workstation{
+    @extend .icon-wrapper;
+    background: {
+        image: url("/icons/bt_workstation_off.svg");
+    }
+}
+.icon-broadcast{
+    @extend .icon-wrapper;
+    background: {
+        image: url("/icons/bt_broadcast_off.svg");
+    }
+}
+.icon-location{
+    @extend .icon-wrapper;
+    background: {
+        image: url("/icons/bt_location_off.svg");
+    }
+}
+.icon-masterdata{
+    @extend .icon-wrapper;
+    background: {
+        image: url("/icons/bt_masterdata_off.svg");
+    }
+}

@@ -1,0 +1,360 @@
+// Fonts
+@import './components/fonts';
+
+$bg-body: #f2f2f2;
+$bg-hitam: #000000;
+$bg-white: #FFFFFF;
+$bg-abutua: #333333;
+$bg-abumuda: #B3B3B3;
+$bg-abulight: #d8d8d8;
+$bg-orange: #FF3D20;
+$bg-blue: #00A4E3;
+$bg-hijau: #24c137;
+$fontsize-header1: 60px;
+$fontsize-header2: 44px;
+$bordertop-abu: #999999;
+$bordertop-putih: #FFFFFF;
+$font: gothic;
+$font-bold: gothicbold;
+$container-width: 1240px;
+$fontsize-content: 12pt;
+
+@mixin transition($property: all, $duration: .3s, $ease: linear) {
+    -webkit-transition: $property $duration $ease;
+	-moz-transition: $property $duration $ease;
+	-o-transition: $property $duration $ease;
+	transition: $property $duration $ease;
+}
+
+b{
+    font-weight: none;
+    font-family: gothicbold;
+}
+i{
+    font: {
+        style: none;
+        family: gothicitalic;
+    }
+}
+html, body {
+    height: 100%;
+}
+body {
+    background-color: $bg-body;
+}
+
+.container{
+    padding: 15px 10px;
+    min-width: $container-width;
+    font-size: $fontsize-content;
+    margin-bottom: 100px
+}
+.content-height{
+    min-height: 500px;
+}
+.content-margin{
+    margin-top: 40px;
+}
+
+#tulisanlogo {
+    font-size: 15px;
+    font-family: $font-bold;
+}
+
+#map-canvas{
+    width: 100%;
+    height: 300px;
+}
+#searchmap{
+    width: 100%;
+}
+/* Important part */
+.modal-dialog{
+    overflow-y: initial !important
+}
+.scroll{
+    height: 300px;
+    overflow-y: auto;
+}
+.large{
+    height: 450px;
+}
+
+.card-position-1 {
+  margin-left:15px;
+  transition: 0.3s; 
+  width: 18.5rem;
+}
+
+.card-position {
+  margin-left:10px; 
+  transition: 0.3s;
+  width: 18.5rem;
+}
+
+.card-position-1:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.card-position:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.fa-5x {
+  transition: transform 0.5s;
+}
+.fa-5x:hover {
+    -ms-transform: scale(1.1); /* IE 9 */
+    -webkit-transform: scale(1.1); /* Safari 3-8 */
+    transform: scale(1.1); 
+}
+
+.card-title-position {
+  text-align:right;
+  margin-top:-90px; 
+  margin-bottom:-15px;
+}
+.judul {
+    font-family: $font;
+}
+
+#pilihanroom {
+    font-family : $font;
+}
+
+
+#tempatlogo{
+    font-family: $font;
+    background-color: black;
+    min-height: 60px;
+    color:#999999;
+}
+#logo {
+    padding-top: 1.0em;
+}
+#sapauser a {
+    color:#2ca7e3;
+    text-decoration: none;
+}
+#menuutama, #menuutama a {
+    color:#afafaf;
+    font-size: 1.2em;
+}
+#menuutama a {
+    margin-right:2em;
+}
+#tempatsubmenu, #tempatbreadcrumb {
+    min-height: 2.8em;
+}
+#tempatsubmenu {
+    background-color: #333333;    
+}
+#tempatbreadcrumb {
+    background-color: #b3b3b3;
+}
+// #tempatDetail {
+//     min-height: 20em;
+//     margin-top:2em;
+// }
+footer {
+    margin-top: 40px;
+    background-color: #7F7F7F;
+    padding: 10px;
+    color: #f4f4f4;
+    font: {
+        family: $font;
+        size: 12px;
+    }
+}
+#border_logo_client {
+    width: 400px;margin-left: auto;margin-right: auto;height: 400px;
+}
+
+.table_custom1 {
+    th, td{
+        padding:1.75rem;
+    }
+}
+
+.img-rooms{
+    position: relative;
+    width: 300px;
+    height: 300px;
+    box-shadow: 0px 0px 30px #808080;
+    border: 1px solid #cccccc;
+    margin: auto;
+    background: #ffffff;
+    text-align: center;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.img-rooms img{
+    max-heigth: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    padding: 15px;
+}
+#halamanlogin {
+    background-color: #1a1a1a;
+    background: linear-gradient(#1a1a1a, #333333);
+}
+
+#kotaklogin {
+    background-image:url(/images/beee.png); 
+    background-repeat: no-repeat;
+    width:400px;
+    height:400px;
+    color:white;
+    letter-spacing: 0.6em;
+}
+
+#inputpassword,#inputusername {
+    background-position: 0px 0px;
+    text-indent: 48px;
+    height: 38px;
+    border-radius:5px;
+    width: 240px;
+    margin-bottom:5px;
+    border: none;
+    outline: none;
+
+    &:focus{
+        background-color: #fffdc4;
+    }
+}
+#inputpassword {
+    background-image:url(/images/password.png); 
+    background-repeat: no-repeat; 
+}
+#inputusername {
+    background-image:url(/images/username.png); 
+    background-repeat: no-repeat; 
+}
+#tombollogin {
+    background-color: #202020;
+    border:1px solid #202020;
+    border-radius:5px;
+    padding: 5px 0;
+    font-family: gothic
+}
+#tempatCopyrightLogin {
+    width:auto;
+    height:30px;
+    color:#E5E5E5;
+    font-size: 0.8em;
+    margin-top:5em;
+    font-family:gothic;
+    display: table;
+}
+
+.btn-rooms{
+    text-transform: uppercase;
+    font-size: 16pt;
+}
+
+.bc-image{
+    overflow: hidden;
+    border-radius: 10px;
+    width: 60px;
+    height: 60px;
+    background: $bg-white;
+    border: 1px solid $bg-abumuda;
+
+    img{
+        height: 100%;
+    }
+}
+
+.note-info{
+    padding: {
+        top: 15px;
+        bottom: 15px;
+        left: 5px;
+        right: 5px;
+    }
+    border-radius: 10px;
+    border: 2px solid $bg-abumuda;
+    background: $bg-white;
+}
+
+.steps{
+    a{
+        cursor: not-allowed;
+        opacity: .5;
+        color: $bg-abutua;
+        font-family: gothic;
+        text-transform: uppercase;
+
+        &:hover{
+            text-decoration: none;
+        }
+
+        &.active, &.complete{
+            opacity: 1;
+        }
+        &.active{
+            cursor: default;
+            background: $bg-orange;
+            color: $bg-white;
+            font-family: gothicbold;
+        }
+        &.complete{
+            cursor: pointer;
+
+            &:hover{
+                border: 1px solid $bg-orange;
+            }
+        }
+    }
+}
+
+.category-carousel{
+    font-family: gothic;
+    text-shadow: 0px 2px rgba($bg-hitam, 0.5);
+
+    .card{
+        &:hover{
+            .card-img-overlay{
+                background: rgba($bg-hitam, 0);
+            }
+        }
+
+        height: 151.5px;
+        overflow: hidden;
+
+        .card-img{
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    .card-img-overlay{
+        background: rgba($bg-hitam, 0.5);
+        border-radius: 5px;
+        @include transition;
+    }
+}
+
+.slick-prev, .slick-next{
+    &:before{
+        color: $bg-hitam;
+        font-size: 25px;
+    }
+}
+.slick-prev{
+    left: -30px;
+}
+
+// components
+@import './components/navbar';
+@import './components/breadcrumb';
+@import './components/form';
+@import './components/pagination';
+@import './components/nav';
+@import './components/tooltip';

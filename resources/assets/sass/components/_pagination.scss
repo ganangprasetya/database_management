@@ -1,0 +1,52 @@
+.pagination{
+    margin: {
+        top: 20px;
+        margin: 20px;
+    }
+
+    .page-item{
+        &.disabled{
+            .pre-link{
+                opacity: .5;
+            }
+        }
+        &.active{
+            .page-link{
+                font-family: $font-bold;
+            }
+        }
+        .page-link{
+            background: none;
+            border: none;
+            color: $bg-abutua;
+            padding: {
+                top: 3px;
+                bottom: 3px;
+            }
+
+            &.pre-link{
+                border: {
+                    radius: 50%;
+                }
+                background: $bg-blue;
+                color: $bg-white;
+                text-align: center;
+                width: 25px;
+                line-height: 19px;
+                font-size: 10pt;
+                padding: {
+                    left: 0;
+                    right: 0;
+                }
+
+                &:hover{
+                    opacity: .8;
+                }
+            }
+
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+    }
+}
