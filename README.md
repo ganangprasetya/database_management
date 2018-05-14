@@ -10,7 +10,7 @@ Make sure you already install `npm` and `composer`
 
 ## How to Install
 
-1. Clone this project by running `git clone https://gitlab.com/byonchat-team/personal-shopper-v2.git` or using git GUI like [Sourcetree](https://www.sourcetreeapp.com/) or [GitKraken](https://www.gitkraken.com/)
+1. Clone this project by running `git clone https://github.com/ganangprasetya/database_management.git` or using git GUI like [Sourcetree](https://www.sourcetreeapp.com/) or [GitKraken](https://www.gitkraken.com/)
 2. Cd to the project and install composer dependencies by running `composer install`
 3. Install npm dependencies by running `npm install` (optional)
 4. Copy `.env.example` to `.env` and change a credentials configuration

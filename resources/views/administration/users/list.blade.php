@@ -54,7 +54,7 @@
                     <tbody>
                         @forelse($users AS $user)
                             <tr onclick="toggleChecked('{{ $user->id }}')">
-                                <th scope="row" class="text-center">{{ $loop->iteration + $offset }}</th>
+                                <th scope="row" class="text-center">{{ $loop->iteration }}</th>
                                 <td>{{ $user->fullname }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td class="text-center">{{ $user->roles[0]->display_name }}
@@ -67,10 +67,6 @@
                         @endforelse
                     </tbody>
                 </table>
-
-                <nav>
-                    {{ $users->links() }}
-                </nav>
             </div>
         </div>
     </div>

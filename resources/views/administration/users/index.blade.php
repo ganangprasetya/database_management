@@ -62,7 +62,7 @@
                                         </label>
                                     </div>
                                 </th>
-                                <th scope="row" class="text-center">{{ $loop->iteration + $offset }}</th>
+                                <th scope="row" class="text-center">{{ $loop->iteration }}</th>
                                 <td>{{ $user->fullname }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td align="center">{{ $user->created_at->formatLocalized('%e %h %Y, %I:%M %p') }}</td>
@@ -82,10 +82,6 @@
                         @endforelse
                     </tbody>
                 </table>
-
-                <nav>
-                    {{ $users->links() }}
-                </nav>
             </div>
         </div>
     </div>

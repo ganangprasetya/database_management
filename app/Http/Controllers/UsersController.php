@@ -25,56 +25,54 @@ class UsersController extends Controller
         $paginate_limit = env('PAGINATE_LIMIT', 10);
 
         // search roles
-        $users = User::with('roles')->latest()->paginate($paginate_limit);
+        $users = User::with('roles')->latest()->get();
         if(count($request->query()) > 0){
             $filter = $request->query('filter');
             $keyword = $request->query('keyword');
 
             switch($filter){
                 case "fullname":
-                    $users = User::with('roles')->where('fullname', 'like', '%'.$keyword.'%')->latest()->paginate($paginate_limit);
+                    $users = User::with('roles')->where('fullname', 'like', '%'.$keyword.'%')->latest()->get();
                     break;
                 case "email":
-                    $users = User::with('roles')->where('email', 'like', '%'.$keyword.'%')->latest()->paginate($paginate_limit);
+                    $users = User::with('roles')->where('email', 'like', '%'.$keyword.'%')->latest()->get();
                     break;
                 default:
-                    $users = User::with('roles')->where('fullname', 'like', '%'.$keyword.'%')->latest()->paginate($paginate_limit);
+                    $users = User::with('roles')->where('fullname', 'like', '%'.$keyword.'%')->latest()->get();
             }
         }
-        $offset = $users->perPage() * ($users->currentPage() - 1);
         $roles = Role::all();
 
-        return view(self::VIEW_PATH.'.index')->with(compact('users', 'offset', 'roles'));
+        return view(self::VIEW_PATH.'.index')->with(compact('users', 'roles'));
     }
 
     public function lists(Request $request){
         $paginate_limit = env('PAGINATE_LIMIT', 10);
 
         // search roles
-        $users = User::with('roles')->latest()->paginate($paginate_limit);
+        $users = User::with('roles')->latest()->get();
         if(count($request->query()) > 0){
             $filter = $request->query('filter');
             $keyword = $request->query('keyword');
 
             switch($filter){
                 case "fullname":
-                    $users = User::with('roles')->where('fullname', 'like', '%'.$keyword.'%')->latest()->paginate($paginate_limit);
+                    $users = User::with('roles')->where('fullname', 'like', '%'.$keyword.'%')->latest()->get();
                     break;
                 case "email":
-                    $users = User::with('roles')->where('email', 'like', '%'.$keyword.'%')->latest()->paginate($paginate_limit);
+                    $users = User::with('roles')->where('email', 'like', '%'.$keyword.'%')->latest()->get();
                     break;
                 case "role":
                     $users = User::with('roles')->whereHas('roles', function($query) use ($keyword){
                         $query->where('display_name', 'like', '%'.$keyword.'%');
-                    })->latest()->paginate($paginate_limit);
+                    })->latest();
                     break;
                 default:
-                    $users = User::with('roles')->where('fullname', 'like', '%'.$keyword.'%')->latest()->paginate($paginate_limit);
+                    $users = User::with('roles')->where('fullname', 'like', '%'.$keyword.'%')->latest()->get();
             }
         }
-        $offset = $users->perPage() * ($users->currentPage() - 1);
 
-        return view(self::VIEW_PATH.'.list')->with(compact('users', 'offset'));
+        return view(self::VIEW_PATH.'.list')->with(compact('users'));
     }
 
     public function exportxls()
@@ -158,9 +156,8 @@ class UsersController extends Controller
     {
         $user = User::with('roles')->findOrFail($id);
         $roles = Role::all();
-        $stores = Store::all();
 
-        return view(self::VIEW_PATH.'.edit')->with(compact('user', 'roles', 'stores'));
+        return view(self::VIEW_PATH.'.edit')->with(compact('user', 'roles'));
     }
 
     public function update(Request $request, $id)

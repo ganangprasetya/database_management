@@ -78,6 +78,9 @@
                         <li class="nav-item">
                             <a class="nav-link{{ ((Request::segment(2) == "databases") && (Request::segment(3) == "lists")) ? ' active':'' }}" href="#">List Databases</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link{{ ((Request::segment(2) == "databases") && (Request::segment(3) == "user")) ? ' active':'' }}" href="#">User Databases</a>
+                        </li>
                     </ul>
                 </div>
             </nav>
