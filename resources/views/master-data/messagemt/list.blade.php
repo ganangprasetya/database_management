@@ -122,13 +122,53 @@
                         @endif
                     </tbody>
                 </table>
-                @if($messagesmt != NULL)
-                    <nav>
-                        {{ $messagesmt->links() }}
-                    </nav>
-                @endif
-                @if(Request::query('keyword') != NULL)
+                <nav>
+                    {{ $messagesmt->links() }}
+                </nav>
+                @if(Request::query('filter') == "phone_number" AND Request::query('keyword') != NULL)
                     <hr>
+                    <div class="card text-white" style="margin-top:10px; margin-left:15px; width: 100%;">
+                        <div class="card-header" style="background-color:#757677;">
+                            <h5 align="center">Form Email</h5>
+                        </div>
+                        <div class="card-body" style="color:black;">
+                            <p>We checked below messages already successfully submitted to {{ $name_prefix }}.</br>
+                            We'll check with {{ $name_prefix }} and revert you soon.</p>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th align="center">userid</th>
+                                        <th align="center">messageid</th>
+                                        <th align="center">original</th>
+                                        <th align="center">sendto</th>
+                                        <th align="center">receivedate</th>
+                                        <th align="center">sentdate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if($messagesmt == NULL)
+                                        <tr>
+                                            <td colspan="15" align="center"><b>No Record Found!</b></td>
+                                        </tr>
+                                    @else
+                                        @forelse($messagesmt as $messagemt)
+                                                <td align="center">Tes</td>
+                                                <td align="center">{{ $messagemt->messageid }}</td>
+                                                <td align="center">{{ $messagemt->original }}</td>
+                                                <td align="center">{{ $messagemt->sendto }}</td>
+                                                <td align="center">{{ $messagemt->receivedate }}</td>
+                                                <td align="center">{{ $messagemt->sentdate }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="6" align="center"><b>No Record Found!</b></td>
+                                            </tr>
+                                        @endforelse
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 @endif
             </div>
         </div>

@@ -31,17 +31,20 @@ class MessageMTController extends Controller
         $paginate_limit = env('PAGINATE_LIMIT', 10);
         $data = TemporaryDatabase::where('user_id', $user_id)->first();
         if($data == NULL){
+            //kalau kosong
             $messagesmt = NULL;
         }else{
+            //proses choose active database
             $active_database = Database::where('id', $data->database_id)->first();
             Config::set('database.connections.csr.host', $active_database->host);
             Config::set('database.connections.csr.username', $active_database->username);
             Config::set('database.connections.csr.password', $active_database->password);
             Config::set('database.connections.csr.database', $active_database->name);
-
             //If you want to use query builder without having to specify the connection
             Config::set('database.default', 'csr');
             DB::reconnect('csr');
+
+            //proses show data
             $messagesmt = DB::connection('csr')->table('messagemt')->paginate($paginate_limit);
             if(count($request->query()) > 0){
                 $filter = $request->query('filter');
@@ -50,23 +53,42 @@ class MessageMTController extends Controller
                 switch($filter){
                     case "phone_number":
                         $global_phone = Library::cekUserid($keyword);
-                        $messagesmt = DB::connection('csr')->table('messagemt')->where('sendto', 'like', '%'.$global_phone.'%')->paginate($paginate_limit);
+                        $messagesmt = DB::connection('csr')->table('messagemt')->where('sendto', $global_phone)->paginate($paginate_limit);
+                        $messagesmt->appends([
+                            'filter' => $filter,
+                            'keyword' => $keyword
+                        ]);
+                        $no_prefix = substr($global_phone, 0, 5);
+                        $name_prefix = NULL;
+                        $telkomsel = ["62811","62812","62813","62821","62822","62823","62851","62852","62853"];
+                        $indosat = ["62814","62815","62816","62855","62856","62857","62858"];
+                        $three = ["62895","62896","62897","62898","62899"];
+                        $smartfren = ["62881","62882","62883","62884","62885","62886","62887","62888","62889"];
+                        $xl = ["62817","62818","62819","62859","62877","62878","62879"];
+                        $axis = ["62831","62832","62833","62834","62835","62836","62837","62838","62839"];
+                        if(in_array($no_prefix, $telkomsel)){
+                            $name_prefix = 'Telkomsel';
+                        }elseif(in_array($no_prefix, $indosat)){
+                            $name_prefix = 'Indosat';
+                        }elseif(in_array($no_prefix, $three)){
+                            $name_prefix = 'Three';
+                        }elseif(in_array($no_prefix, $xl)){
+                            $name_prefix = 'XL Axiata';
+                        }elseif(in_array($no_prefix, $axis)){
+                            $name_prefix = 'Axis';
+                        }
+                        break;
+                    case "message_id":
+                        $messagesmt = DB::connection('csr')->table('messagemt')->where('messageid', 'like', '%'.$keyword.'%')->paginate($paginate_limit);
                         $messagesmt->appends([
                             'filter' => $filter,
                             'keyword' => $keyword
                         ]);
                         break;
-                    default:
-                        $global_phone = Library::cekUserid($keyword);
-                        $messagesmt = DB::connection('csr')->table('messagemt')->where('sendto', 'like', '%'.$global_phone.'%')->paginate($paginate_limit);
-                        $messagesmt->appends([
-                            'filter' => $filter,
-                            'keyword' => $keyword
-                        ]);
                 }
             }
         }
-        return view(self::VIEW_PATH.'.list')->with(compact('user_databases','databases','data','messagesmt'));
+        return view(self::VIEW_PATH.'.list')->with(compact('user_databases','databases','data','messagesmt','name_prefix'));
     }
 
     public function ChangeDatabase(Request $request)
