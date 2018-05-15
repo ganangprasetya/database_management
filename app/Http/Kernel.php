@@ -60,6 +60,5 @@ class Kernel extends HttpKernel
         'only-admin' => \App\Http\Middleware\LoginOnlyAdmin::class,
         'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
         'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
-        'customer-valid' => \App\Http\Middleware\CheckCustomerValid::class,
     ];
 }

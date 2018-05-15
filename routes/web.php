@@ -25,8 +25,6 @@ Route::get('/', function(){
 
 Route::middleware(['auth', 'role:administrator|super_user'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/home/dailytransactions', 'HomeController@dailytransactions')->name('home.dailytransactions');
-    Route::get('/home/monthlytransactions', 'HomeController@monthlytransactions')->name('home.monthlytransactions');
 
     Route::middleware(['role:administrator|super_user'])->group(function(){
 

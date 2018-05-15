@@ -12,6 +12,7 @@ use Excel;
 use Auth;
 use App\Database;
 use App\UserDatabase;
+use App\TemporaryDatabase;
 use App\User;
 
 class DatabaseController extends Controller
@@ -228,6 +229,7 @@ class DatabaseController extends Controller
     public function DeleteAssign($id)
     {
         UserDatabase::where('user_id', $id)->delete();
+        TemporaryDatabase::where('user_id', $id)->delete();
         return redirect()->route('databases.userdb');
     }
 
