@@ -23,12 +23,12 @@ Route::get('/', function(){
 //     return view('mail');
 // });
 
-Route::middleware(['auth', 'role:administrator|user'])->group(function(){
+Route::middleware(['auth', 'role:administrator|super_user'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/home/dailytransactions', 'HomeController@dailytransactions')->name('home.dailytransactions');
     Route::get('/home/monthlytransactions', 'HomeController@monthlytransactions')->name('home.monthlytransactions');
 
-    Route::middleware(['role:administrator|user'])->group(function(){
+    Route::middleware(['role:administrator|super_user'])->group(function(){
 
       //Accounts
       Route::prefix('accounts')->group(function(){
@@ -58,5 +58,10 @@ Route::middleware(['auth', 'role:administrator|user'])->group(function(){
             Route::get('databases/assign', 'DatabaseController@AssignUser')->name('databases.assign');
             Route::get('databases/assign/{id}', 'DatabaseController@AssignForm')->name('databases.assignform');
             Route::put('databases/assign/{id}', 'DatabaseController@AddAssign')->name('databases.addassign');
+        });
+        // Master Data
+        Route::prefix('masterdata')->group(function(){
+            Route::get('messagemt/lists', 'MessageMTController@index')->name('messagemt.list');
+            Route::post('messagemt/changedatabases', 'MessageMTController@ChangeDatabase')->name('messagemt.changedb');
         });
 });

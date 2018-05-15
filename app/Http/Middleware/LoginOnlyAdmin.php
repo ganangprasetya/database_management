@@ -19,7 +19,7 @@ class LoginOnlyAdmin
     {
         $user = User::where('email', $request->email)->first();
 
-        if(!$user->hasRole('administrator|user'))
+        if(!$user->hasRole('administrator|super_user'))
         {
             return redirect()->route('login');
         }

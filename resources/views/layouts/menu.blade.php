@@ -48,8 +48,17 @@
                 </ul>
             </div>
         </nav>
+        <nav class="navbar navbar-expand-lg main-navbar menu-dropdown{{ (Request::segment(1) != "masterdata") ? ' d-none':'' }}" data-pair="masterdata">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link menu-middle{{ (Request::segment(2) == "messagemt") ? ' active':'' }}" href="#" onclick="clickSubmenu('messagemt');return false;" data-clicked="false" data-key="messagemt">Message MT</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </div>
-    <div class="container-fluid nav-bottom{{ (Request::segment(2) == '') ? ' d-none':'' }}" id="navBottom">
+        <div class="container-fluid nav-bottom{{ (Request::segment(2) == '') ? ' d-none':'' }}" id="navBottom">
             {{-- User Submenu --}}
             <nav class="navbar navbar-expand-lg main-navbar submenu-dropdown{{ (Request::segment(2) != "users") ? ' d-none':'' }}" data-pair="manage_users">
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -84,9 +93,18 @@
                     </ul>
                 </div>
             </nav>
-        </div>
-        <!-- Master Data Dropdown -->
-        <div id="containerMasterDataDropdown">
+            <!-- Master Data Dropdown -->
+            <div id="containerMasterDataDropdown">
+                <nav class="navbar navbar-expand-lg main-navbar submenu-dropdown{{ (Request::segment(2) != "messagemt") ? ' d-none':'' }}" data-pair="messagemt">
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link{{ ((Request::segment(2) == "messagemt") && (Request::segment(3) == "lists")) ? ' active':'' }}" href="{{ route('messagemt.list') }}">Lists</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
         </div>
     </div>
 </div>
