@@ -13,6 +13,8 @@
                 </nav>
             </div>
         </div>
+        @if($messagesmt == NULL)
+        @else
         <div class="row align-items-center">
             <div class="col search-box">
                 <div class="row">
@@ -73,6 +75,7 @@
                 <table class="table" style="display: block;overflow-x: auto;white-space: nowrap;">
                     <thead>
                         <tr>
+                            <th scope="col">No</th>
                             <th scope="col">Count ID</th>
                             <th scope="col">Message ID</th>
                             <th scope="col">Original</th>
@@ -91,40 +94,42 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if($messagesmt == NULL)
+                        @forelse($messagesmt as $messagemt)
+                            @php
+                                $receivedate = date_create($messagemt->receivedate);
+                                $sentdate = date_create($messagemt->sentdate);
+                            @endphp
+                            <tr>
+                                <th scope="row" class="text-center">{{ $loop->iteration }}</th>
+                                <td class="align-middle">{{ $messagemt->countid }}</td>
+                                <td class="align-middle">{{ $messagemt->messageid }}</td>
+                                <td class="align-middle">{{ $messagemt->original }}</td>
+                                <td class="align-middle">{{ $messagemt->sendto }}</td>
+                                <td class="align-middle">{{ $messagemt->message }}</td>
+                                <td class="align-middle">{{ date_format($receivedate, 'd-m-Y H:i:s') }}</td>
+                                <td class="align-middle">{{ date_format($sentdate, 'd-m-Y H:i:s') }}</td>
+                                <td class="align-middle">{{ (!$messagemt->sentstatus) ? '-':$messagemt->sentstatus }}</td>
+                                <td class="align-middle">{{  (!$messagemt->delivereddate) ? '-':$messagemt->delivereddate }}</td>
+                                <td class="align-middle">{{ (!$messagemt->startdate) ? '-':$messagemt->startdate }}</td>
+                                <td class="align-middle">{{ (!$messagemt->enddate) ? '-':$messagemt->enddate }}</td>
+                                <td class="align-middle">{{ (!$messagemt->deliveredstatus) ? '-':$messagemt->deliveredstatus }}</td>
+                                <td class="align-middle">{{ $messagemt->status }}</td>
+                                <td class="align-middle">{{ $messagemt->priority }}</td>
+                                <td class="align-middle">{{ $messagemt->thirdid }}</td>
+                            </tr>
+                        @empty
                             <tr>
                                 <td colspan="15" align="center"><b>No Record Found!</b></td>
                             </tr>
-                        @else
-                            @forelse($messagesmt as $messagemt)
-                                <tr onclick="toggleChecked('{{ $messagemt->countid }}')">
-                                    <td class="align-middle">{{ $messagemt->countid }}</td>
-                                    <td class="align-middle">{{ $messagemt->messageid }}</td>
-                                    <td class="align-middle">{{ $messagemt->original }}</td>
-                                    <td class="align-middle">{{ $messagemt->sendto }}</td>
-                                    <td class="align-middle">{{ $messagemt->message }}</td>
-                                    <td class="align-middle">{{ $messagemt->receivedate }}</td>
-                                    <td class="align-middle">{{ $messagemt->sentdate }}</td>
-                                    <td class="align-middle">{{ (!$messagemt->sentstatus) ? '-':$messagemt->sentstatus }}</td>
-                                    <td class="align-middle">{{  (!$messagemt->delivereddate) ? '-':$messagemt->delivereddate }}</td>
-                                    <td class="align-middle">{{ (!$messagemt->startdate) ? '-':$messagemt->startdate }}</td>
-                                    <td class="align-middle">{{ (!$messagemt->enddate) ? '-':$messagemt->enddate }}</td>
-                                    <td class="align-middle">{{ (!$messagemt->deliveredstatus) ? '-':$messagemt->deliveredstatus }}</td>
-                                    <td class="align-middle">{{ $messagemt->status }}</td>
-                                    <td class="align-middle">{{ $messagemt->priority }}</td>
-                                    <td class="align-middle">{{ $messagemt->thirdid }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="15" align="center"><b>No Record Found!</b></td>
-                                </tr>
-                            @endforelse
-                        @endif
+                        @endforelse
                     </tbody>
                 </table>
-                <nav>
-                    {{ $messagesmt->links() }}
-                </nav>
+                @endif
+                @if($messagesmt != NULL)
+                    <nav>
+                        {{ $messagesmt->links() }}
+                    </nav>
+                @endif
                 @if(Request::query('filter') == "phone_number" AND Request::query('keyword') != NULL)
                     <hr>
                     <div class="card text-white" style="margin-top:10px; margin-left:15px; width: 100%;">
@@ -133,16 +138,16 @@
                         </div>
                         <div class="card-body" style="color:black;">
                             <p>We checked below messages already successfully submitted to {{ $name_prefix }}.</br>
-                            We'll check with {{ $name_prefix }} and revert you soon.</p>
-                            <table class="table table-striped">
+                            We'll check with {{ $name_prefix }} and revert you soon.</p></br>
+                            <table>
                                 <thead>
                                     <tr>
-                                        <th align="center">userid</th>
-                                        <th align="center">messageid</th>
-                                        <th align="center">original</th>
-                                        <th align="center">sendto</th>
-                                        <th align="center">receivedate</th>
-                                        <th align="center">sentdate</th>
+                                        <th>userid</th>
+                                        <th>messageid</th>
+                                        <th>original</th>
+                                        <th>sendto</th>
+                                        <th>receivedate</th>
+                                        <th>sentdate</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -152,12 +157,17 @@
                                         </tr>
                                     @else
                                         @forelse($messagesmt as $messagemt)
-                                                <td align="center">Tes</td>
-                                                <td align="center">{{ $messagemt->messageid }}</td>
-                                                <td align="center">{{ $messagemt->original }}</td>
-                                                <td align="center">{{ $messagemt->sendto }}</td>
-                                                <td align="center">{{ $messagemt->receivedate }}</td>
-                                                <td align="center">{{ $messagemt->sentdate }}</td>
+                                            @php
+                                                $receivedate = date_create($messagemt->receivedate);
+                                                $sentdate = date_create($messagemt->sentdate);
+                                            @endphp
+                                            <tr>
+                                                <td>Tes</td>
+                                                <td>{{ $messagemt->messageid }}</td>
+                                                <td>{{ $messagemt->original }}</td>
+                                                <td>{{ $messagemt->sendto }}</td>
+                                                <td>{{ date_format($receivedate, 'd-m-Y H:i:s') }}</td>
+                                                <td>{{ date_format($sentdate, 'd-m-Y H:i:s')  }}</td>
                                             </tr>
                                         @empty
                                             <tr>
@@ -167,6 +177,8 @@
                                     @endif
                                 </tbody>
                             </table>
+                            <p><b>GMT+7</b></p>
+                            <p>Thanks.</p>
                         </div>
                     </div>
                 @endif

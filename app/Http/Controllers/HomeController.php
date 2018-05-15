@@ -3,15 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\DepartmentStore;
-use App\Store;
+use App\Database;
 use App\User;
-use App\Category;
-use App\Broadcast;
-use App\Product;
-use App\Order;
-use App\OrderPayment;
-use App\Customer;
 use Carbon\Carbon;
 use DB;
 
@@ -34,6 +27,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $databases = Database::get()->count();
+        $users = User::get()->count();
+        return view('dashboard', compact('databases','users'));
     }
 }

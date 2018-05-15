@@ -153,7 +153,11 @@ class DatabaseController extends Controller
      */
     public function destroy($id)
     {
-        $database = Database::destroy($id);
+        if(UserDatabase::where('database_id', $id)->first() != NULL){
+            alert()->error('Still used by users', 'Error');
+        }else{
+            $database = Database::destroy($id);
+        }
 
         return redirect()->route('databases.index');
     }

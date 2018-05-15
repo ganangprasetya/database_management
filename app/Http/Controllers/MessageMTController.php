@@ -45,7 +45,7 @@ class MessageMTController extends Controller
             DB::reconnect('csr');
 
             //proses show data
-            $messagesmt = DB::connection('csr')->table('messagemt')->paginate($paginate_limit);
+            $messagesmt = DB::connection('csr')->table('messagemt')->orderBy('countid', 'desc')->paginate($paginate_limit);
             if(count($request->query()) > 0){
                 $filter = $request->query('filter');
                 $keyword = $request->query('keyword');
@@ -53,7 +53,7 @@ class MessageMTController extends Controller
                 switch($filter){
                     case "phone_number":
                         $global_phone = Library::cekUserid($keyword);
-                        $messagesmt = DB::connection('csr')->table('messagemt')->where('sendto', $global_phone)->paginate($paginate_limit);
+                        $messagesmt = DB::connection('csr')->table('messagemt')->where('sendto', $global_phone)->orderBy('countid', 'desc')->paginate($paginate_limit);
                         $messagesmt->appends([
                             'filter' => $filter,
                             'keyword' => $keyword
@@ -71,15 +71,17 @@ class MessageMTController extends Controller
                         }elseif(in_array($no_prefix, $indosat)){
                             $name_prefix = 'Indosat';
                         }elseif(in_array($no_prefix, $three)){
-                            $name_prefix = 'Three';
+                            $name_prefix = 'Hutchison - Three';
                         }elseif(in_array($no_prefix, $xl)){
                             $name_prefix = 'XL Axiata';
                         }elseif(in_array($no_prefix, $axis)){
                             $name_prefix = 'Axis';
+                        }elseif(in_array($no_prefix, $smartfren)){
+                            $name_prefix = 'SmartFren';
                         }
                         break;
                     case "message_id":
-                        $messagesmt = DB::connection('csr')->table('messagemt')->where('messageid', 'like', '%'.$keyword.'%')->paginate($paginate_limit);
+                        $messagesmt = DB::connection('csr')->table('messagemt')->where('messageid', 'like', '%'.$keyword.'%')->orderBy('countid', 'desc')->paginate($paginate_limit);
                         $messagesmt->appends([
                             'filter' => $filter,
                             'keyword' => $keyword
@@ -94,22 +96,27 @@ class MessageMTController extends Controller
     public function ChangeDatabase(Request $request)
     {
         $database_id = $request->database_id;
-        $user_id = Auth::user()->id;
-        $old_temporary = TemporaryDatabase::where('user_id', $user_id)->first();
-        if($old_temporary != NULL){
-            $old_temporary->delete();
-            $new_temporary = TemporaryDatabase::create([
-                'user_id' => $user_id,
-                'database_id' => $database_id
-            ]);
+        if($database_id == NULL){
+            alert()->warning('Please select database in list', 'Warning');
+            return redirect()->route('messagemt.list');
         }else{
-            $new_temporary = TemporaryDatabase::create([
-                'user_id' => $user_id,
-                'database_id' => $database_id
-            ]);
+            $user_id = Auth::user()->id;
+            $old_temporary = TemporaryDatabase::where('user_id', $user_id)->first();
+            if($old_temporary != NULL){
+                $old_temporary->delete();
+                $new_temporary = TemporaryDatabase::create([
+                    'user_id' => $user_id,
+                    'database_id' => $database_id
+                ]);
+            }else{
+                $new_temporary = TemporaryDatabase::create([
+                    'user_id' => $user_id,
+                    'database_id' => $database_id
+                ]);
+            }
+            $database = Database::where('id', $database_id)->first()->name;
+            alert()->success('Database '.$database .' has been selected!', 'Success');
+            return redirect()->route('messagemt.list');
         }
-        $database = Database::where('id', $database_id)->first()->name;
-        alert()->success('Database '.$database .' has been selected!', 'Success');
-        return redirect()->route('messagemt.list');
     }
 }

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Validator;
 
 use App\User;
+use App\UserDatabase;
+use App\TemporaryDatabase;
 use App\Role;
 use App\Rules\CheckCurrentPassword;
 
@@ -198,6 +200,8 @@ class UsersController extends Controller
             alert()->error('Failed to Delete Active Account', 'Error');
         }else{
             $user = User::destroy($id);
+            UserDatabase::where('user_id', $id)->delete();
+            TemporaryDatabase::where('user_id', $id)->delete();
         }
         return redirect()->route('users.index');
     }
