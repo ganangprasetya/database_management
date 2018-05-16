@@ -10,4 +10,9 @@ class Database extends Model
     protected $fillable = [
         'name','host','port','username','password','note'
     ];
+
+    public function tables()
+    {
+        return $this->hasMany('App\TableDatabase','database_id');
+    }
 }

@@ -45,6 +45,9 @@
                     <li class="nav-item">
                         <a class="nav-link menu-middle{{ (Request::segment(2) == "databases") ? ' active':'' }}" href="#" onclick="clickSubmenu('manage_databases');return false;" data-clicked="false" data-key="manage_databases">Database Management</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-middle{{ (Request::segment(2) == "tables") ? ' active':'' }}" href="#" onclick="clickSubmenu('manage_tables');return false;" data-clicked="false" data-key="manage_tables">Table Management</a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -89,6 +92,18 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link{{ ((Request::segment(2) == "databases") && (Request::segment(3) == "userdb")) ? ' active':'' }}" href="{{ route('databases.userdb') }}">User Databases</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <nav class="navbar navbar-expand-lg main-navbar submenu-dropdown{{ (Request::segment(2) != "tables") ? ' d-none':'' }}" data-pair="manage_tables">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link{{ ((Request::segment(2) == "tables") && (Request::segment(3) == "create")) ? ' active':'' }}" href="{{ route('tables.create') }}">Create Table</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link{{ ((Request::segment(2) == "tables") && (Request::segment(3) == "manage")) ? ' active':'' }}" href="{{ route('tables.manage') }}">Manage Tables</a>
                         </li>
                     </ul>
                 </div>

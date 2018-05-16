@@ -11,6 +11,7 @@ use Library;
 use Excel;
 use Auth;
 use App\Database;
+use App\TableDatabase;
 use App\MessageMT;
 use App\UserDatabase;
 use App\TemporaryDatabase;
@@ -30,11 +31,13 @@ class MessageMTController extends Controller
         $databases = Database::all(['id','name']);
         $paginate_limit = env('PAGINATE_LIMIT', 10);
         $data = TemporaryDatabase::where('user_id', $user_id)->first();
+        $table_selected = NULL;
         if($data == NULL){
             //kalau kosong
             $messagesmt = NULL;
         }else{
             //proses choose active database
+            $table_selected = TableDatabase::where('id', $data->table_id)->first();
             $active_database = Database::where('id', $data->database_id)->first();
             Config::set('database.connections.csr.host', $active_database->host);
             Config::set('database.connections.csr.username', $active_database->username);
@@ -45,7 +48,7 @@ class MessageMTController extends Controller
             DB::reconnect('csr');
 
             //proses show data
-            $messagesmt = DB::connection('csr')->table('messagemt')->orderBy('countid', 'desc')->paginate($paginate_limit);
+            $messagesmt = DB::connection('csr')->table($table_selected->name)->orderBy('countid', 'desc')->paginate($paginate_limit);
             if(count($request->query()) > 0){
                 $filter = $request->query('filter');
                 $keyword = $request->query('keyword');
@@ -90,12 +93,13 @@ class MessageMTController extends Controller
                 }
             }
         }
-        return view(self::VIEW_PATH.'.list')->with(compact('user_databases','databases','data','messagesmt','name_prefix'));
+        return view(self::VIEW_PATH.'.list')->with(compact('table_selected','user_databases','databases','data','messagesmt','name_prefix'));
     }
 
     public function ChangeDatabase(Request $request)
     {
         $database_id = $request->database_id;
+        $table_id = $request->table_id;
         if($database_id == NULL){
             alert()->warning('Please select database in list', 'Warning');
             return redirect()->route('messagemt.list');
@@ -106,17 +110,27 @@ class MessageMTController extends Controller
                 $old_temporary->delete();
                 $new_temporary = TemporaryDatabase::create([
                     'user_id' => $user_id,
-                    'database_id' => $database_id
+                    'database_id' => $database_id,
+                    'table_id' => $table_id
                 ]);
             }else{
                 $new_temporary = TemporaryDatabase::create([
                     'user_id' => $user_id,
-                    'database_id' => $database_id
+                    'database_id' => $database_id,
+                    'table_id' => $table_id
                 ]);
             }
             $database = Database::where('id', $database_id)->first()->name;
-            alert()->success('Database '.$database .' has been selected!', 'Success');
+            $table = TableDatabase::where('id', $table_id)->first()->name;
+            alert()->success('Database '.$database.'->'.$table.' has been selected!', 'Success');
             return redirect()->route('messagemt.list');
         }
+    }
+
+    public function tablelists(Request $request)
+    {
+        $database_id = $request->get('database_id');
+        $table = TableDatabase::where('database_id',$database_id)->get();
+        return json_encode($table);
     }
 }

@@ -56,10 +56,17 @@ Route::middleware(['auth', 'role:administrator|super_user'])->group(function(){
             Route::get('databases/assign', 'DatabaseController@AssignUser')->name('databases.assign');
             Route::get('databases/assign/{id}', 'DatabaseController@AssignForm')->name('databases.assignform');
             Route::put('databases/assign/{id}', 'DatabaseController@AddAssign')->name('databases.addassign');
+        
+            //table management
+            Route::resource('tables', 'TableController', ['except' => [
+                'show'
+            ]]);
+            Route::get('tables/manage', 'TableController@index')->name('tables.manage');
         });
         // Master Data
         Route::prefix('masterdata')->group(function(){
             Route::get('messagemt/lists', 'MessageMTController@index')->name('messagemt.list');
+            Route::get('messagemt/changedatabases/tablelists', 'MessageMTController@tablelists')->name('messagemt.tablelists');
             Route::post('messagemt/changedatabases', 'MessageMTController@ChangeDatabase')->name('messagemt.changedb');
         });
 });

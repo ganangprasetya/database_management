@@ -85,7 +85,7 @@
                             <tr>
                                 <td><label for="note" class="col-form-label">Note</label></td>
                                 <td>
-                                    <textarea name="note" class="col-9 form-control" id="note" placeholder="Note">{{ old('note') }}</textarea>
+                                    <textarea name="note" class="col-6 form-control" id="note" placeholder="Note">{{ old('note') }}</textarea>
                                 </td>
                             </tr>
                             <tr class="border-bottom">

@@ -7,8 +7,8 @@
                 <nav aria-label="breadcrumb" role="navigation">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#">Administration</a></li>
-                        <li class="breadcrumb-item"><a href="#">Database Management</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">User Databases</li>
+                        <li class="breadcrumb-item"><a href="#">Table Management</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Manage Tables</li>
                     </ol>
                 </nav>
             </div>
@@ -20,7 +20,8 @@
                     <div class="form-group">
                         <select name="filter" class="custom-select" id="filterBy">
                             <option value="">Filter by</option>
-                            <option value="user"{{ (Request::query('filter') == "user") ? ' selected':'' }}>User</option>
+                            <option value="database"{{ (Request::query('filter') == "database") ? ' selected':'' }}>Database</option>
+                            <option value="name"{{ (Request::query('filter') == "name") ? ' selected':'' }}>Name</option>
                         </select>
                     </div>
                     <div class="form-group mx-sm-0 col-4">
@@ -44,31 +45,33 @@
                                 </div>
                             </th>
                             <th class="align-middle">No</th>
-                            <th class="align-middle">User</th>
                             <th class="align-middle">Database</th>
+                            <th class="align-middle">Name</th>
+                            <th class="align-middle">Description</th>
                             <th class="align-middle">Created At</th>
                             <th class="align-middle">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($users AS $user)
-                            <tr onclick="toggleChecked('{{ $user->id }}')">
+                        @forelse($tables AS $table)
+                            <tr onclick="toggleChecked('{{ $table->id }}')">
                                 <th>
                                     <div class="form-row">
                                         <label class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" aria-label="..." id="checkedValues{{ $user->id }}">
-                                            <label class="custom-control-label" for="checkedValues{{ $user->id }}"></label>
+                                            <input type="checkbox" class="custom-control-input" aria-label="..." id="checkedValues{{ $table->id }}">
+                                            <label class="custom-control-label" for="checkedValues{{ $table->id }}"></label>
                                         </label>
                                     </div>
                                 </th>
                                 <th align="center">{{ $loop->iteration + $offset }}</th>
-                                <td align="center">{{ $user->fullname }}</td>
-                                <td align="center">{{ implode(', ', App\UserDatabase::with('database')->where('user_id', $user->id)->get()->pluck('database.name')->toArray()) }}</td>
-                                <td align="center">{{ $user->created_at->formatLocalized('%e %h %Y, %I:%M %p') }}</td>
+                                <td align="center">{{ $table->database->name }}</td>
+                                <td align="center">{{ $table->name }}</td>
+                                <td align="center">{{ $table->description }}</td>
+                                <td align="center">{{ $table->created_at->formatLocalized('%e %h %Y, %I:%M %p') }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('databases.editassign', $user->id) }}" class="btn btn-success btn-sm"><i class="far fa-edit"></i></a>
-                                    <button type="submit" name="delete_button" class="btn btn-danger btn-sm" onclick="confirmButton(event, '#formDelete{{ $user->id }}');"><i class="far fa-trash-alt"></i></a>
-                                    <form method="POST" action="{{ route('databases.deleteassign', $user->id) }}" id="formDelete{{ $user->id }}">
+                                    <a href="#" class="btn btn-success btn-sm"><i class="far fa-edit"></i></a>
+                                    <button type="submit" name="delete_button" class="btn btn-danger btn-sm" onclick="confirmButton(event, '#formDelete{{ $table->id }}');"><i class="far fa-trash-alt"></i></a>
+                                    <form method="POST" action="{{ route('tables.destroy', $table->id) }}" id="formDelete{{ $table->id }}">
                                         {{ method_field('DELETE') }}
                                         {{ csrf_field() }}
                                     </form>
@@ -83,9 +86,11 @@
                 </table>
 
                 <nav>
-                    {{ $users->links() }}
+                    {{ $tables->links() }}
                 </nav>
             </div>
         </div>
     </div>
 @endsection
+
+

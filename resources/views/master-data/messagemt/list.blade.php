@@ -9,21 +9,22 @@
                         <li class="breadcrumb-item"><a href="#">Master Data</a></li>
                         <li class="breadcrumb-item"><a href="#">Message MT</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Lists</li>
+                        @if($table_selected != NULL)
+                        <li class="breadcrumb-item active" aria-current="page">{{ $table_selected->description }}</li>
+                        @endif
                     </ol>
                 </nav>
             </div>
         </div>
-        @if($messagesmt == NULL)
-        @else
         <div class="row align-items-center">
             <div class="col search-box">
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-4">
                         <div class="form-group">
                             <form method="POST" action="{{ route('messagemt.changedb') }}">
                                 {{ csrf_field() }}
-                                @if(Auth::user()->hasRole('administrator'))
-                                    <select class="col-6" name="database_id">
+                                @role('administrator')
+                                    <select name="database_id" id="database_id">
                                         <option value="">Select Database..</option>
                                         @forelse($databases as $database)
                                             @if($data == NULL)
@@ -34,8 +35,12 @@
                                         @empty
                                         @endforelse
                                     </select>
-                                @else
-                                    <select class="col-6" name="database_id">
+                                    <div class="table_id">
+                                        <select name="table_id" id="table_id" placeholder="Select Table.."></select>
+                                    </div>
+                                @endrole
+                                @role('super_user')
+                                    <select name="database_id" id="database_id">
                                         <option value="">Select Database..</option>
                                         @forelse($user_databases as $user_database)
                                             @if($data == NULL)
@@ -46,12 +51,15 @@
                                         @empty
                                         @endforelse
                                     </select>
-                                @endif
-                                <button type="submit" class="btn btn-sm btn-dark">Set</button>
+                                    <div class="table_id">
+                                        <select name="table_id" id="table_id" placeholder="Select Table.."></select>
+                                    </div>
+                                @endrole
+                                <button type="submit" class="btn btn-dark">Set</button>
                             </form>
                         </div>
                     </div>
-                    <div class="col-9">
+                    <div class="col-8">
                         <form method="GET" class="form-inline col-12 justify-content-end">
                             <label for="filterBy">Search :</label>&nbsp;
                             <div class="form-group">
@@ -72,6 +80,8 @@
         </div>
         <div class="row mt-4">
             <div class="col">
+                @if($messagesmt == NULL)
+                @else
                 <table class="table" style="display: block;overflow-x: auto;white-space: nowrap;">
                     <thead>
                         <tr>
@@ -185,4 +195,51 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        function getTable()
+        {
+            $('.table_id').hide();
+            var xhr;
+            var select_database, $select_database;
+            var select_table, $select_table;
+
+            $select_database = $('#database_id').selectize({
+                onChange: function(value) {
+                    $('.table_id').show();
+                    if (!value.length) return;
+                    select_table.disable();
+                    select_table.clearOptions();
+                    select_table.load(function(callback) {
+                        xhr && xhr.abort();
+                        xhr = $.ajax({
+                            url: 'changedatabases/tablelists?database_id=' + value,
+                            method: 'GET',
+                            dataType: 'json',
+                            success: function(results) {
+                                select_table.enable();
+                                callback(results);
+                            },
+                            error: function() {
+                                callback();
+                            }
+                        })
+                    });
+                }
+            });
+
+            $select_table = $('#table_id').selectize({
+                valueField: 'id',
+                labelField: 'name',
+                searchField: ['name']
+            });
+
+            select_table  = $select_table[0].selectize;
+            select_database = $select_database[0].selectize;
+
+            select_table.disable();
+        }
+        document.getElementById('database_id').innerHTML = getTable();
+    </script>
 @endsection

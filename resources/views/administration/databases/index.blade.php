@@ -71,7 +71,7 @@
                                 <td align="center">{{ $database->host }}</td>
                                 <td align="center">{{ $database->port }}</td>
                                 <td align="center">{{ $database->username }}</td>
-                                <td align="center">{{ $database->created_at }}</td>
+                                <td align="center">{{ $database->created_at->formatLocalized('%e %h %Y, %I:%M %p') }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('databases.edit', $database->id) }}" class="btn btn-success btn-sm"><i class="far fa-edit"></i></a>
                                     <button type="submit" name="delete_button" class="btn btn-danger btn-sm" onclick="confirmButton(event, '#formDelete{{ $database->id }}');"><i class="far fa-trash-alt"></i></a>
