@@ -69,7 +69,7 @@
                                 <td align="center">{{ $table->description }}</td>
                                 <td align="center">{{ $table->created_at->formatLocalized('%e %h %Y, %I:%M %p') }}</td>
                                 <td class="text-center">
-                                    <a href="#" class="btn btn-success btn-sm"><i class="far fa-edit"></i></a>
+                                    <a href="{{ route('tables.edit', $table->id) }}" class="btn btn-success btn-sm"><i class="far fa-edit"></i></a>
                                     <button type="submit" name="delete_button" class="btn btn-danger btn-sm" onclick="confirmButton(event, '#formDelete{{ $table->id }}');"><i class="far fa-trash-alt"></i></a>
                                     <form method="POST" action="{{ route('tables.destroy', $table->id) }}" id="formDelete{{ $table->id }}">
                                         {{ method_field('DELETE') }}

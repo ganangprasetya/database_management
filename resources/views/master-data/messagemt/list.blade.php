@@ -19,12 +19,12 @@
         <div class="row align-items-center">
             <div class="col search-box">
                 <div class="row">
-                    <div class="col-4">
-                        <div class="form-group">
+                    <div class="col-2">
                             <form method="POST" action="{{ route('messagemt.changedb') }}">
                                 {{ csrf_field() }}
                                 @role('administrator')
-                                    <select name="database_id" id="database_id">
+                                <div class="form-group">
+                                    <select class="custom-select" name="database_id" id="database_id">
                                         <option value="">Select Database..</option>
                                         @forelse($databases as $database)
                                             @if($data == NULL)
@@ -34,13 +34,15 @@
                                             @endif
                                         @empty
                                         @endforelse
-                                    </select>
+                                    </select></br>
                                     <div class="table_id">
-                                        <select name="table_id" id="table_id" placeholder="Select Table.."></select>
+                                        <select class="custom-select" name="table_id" id="table_id" placeholder="Select Table.."></select>
                                     </div>
+                                </div>
                                 @endrole
                                 @role('super_user')
-                                    <select name="database_id" id="database_id">
+                                <div class="form-group">
+                                    <select class="custom-select" name="database_id" id="database_id">
                                         <option value="">Select Database..</option>
                                         @forelse($user_databases as $user_database)
                                             @if($data == NULL)
@@ -52,14 +54,14 @@
                                         @endforelse
                                     </select>
                                     <div class="table_id">
-                                        <select name="table_id" id="table_id" placeholder="Select Table.."></select>
+                                        <select class="custom-select" name="table_id" id="table_id" placeholder="Select Table.."></select>
                                     </div>
+                                </div>
                                 @endrole
                                 <button type="submit" class="btn btn-dark">Set</button>
                             </form>
-                        </div>
                     </div>
-                    <div class="col-8">
+                    <div class="col-10">
                         <form method="GET" class="form-inline col-12 justify-content-end">
                             <label for="filterBy">Search :</label>&nbsp;
                             <div class="form-group">
@@ -198,48 +200,32 @@
 @endsection
 @section('scripts')
     <script>
-        function getTable()
-        {
+        $(document).ready(function(){
             $('.table_id').hide();
-            var xhr;
-            var select_database, $select_database;
-            var select_table, $select_table;
+            $('#database_id').on('change', function(e){
+              $('.table_id').show();
+              var database_id = e.target.value;
+              console.log(database_id);
 
-            $select_database = $('#database_id').selectize({
-                onChange: function(value) {
-                    $('.table_id').show();
-                    if (!value.length) return;
-                    select_table.disable();
-                    select_table.clearOptions();
-                    select_table.load(function(callback) {
-                        xhr && xhr.abort();
-                        xhr = $.ajax({
-                            url: 'changedatabases/tablelists?database_id=' + value,
-                            method: 'GET',
-                            dataType: 'json',
-                            success: function(results) {
-                                select_table.enable();
-                                callback(results);
-                            },
-                            error: function() {
-                                callback();
-                            }
-                        })
-                    });
+              //ajax
+              $.ajax({
+                url : 'changedatabases/tablelists?database_id=' + database_id,
+                type : "GET",
+                dataType : "JSON",
+                success : function(data){
+                  // alert('bisa!!!');
+                  $('#table_id').empty();
+                  // alert(data);
+                  $.each(data, function(index, table){
+                    $('#table_id').append('<option value="'+table.id+'">'+table.name+' - '+table.description+'</option>');
+                    // alert(kecamatan);
+                  });
+                },
+                error : function(){
+                  alert('Belum bisa!!!');
                 }
+              });
             });
-
-            $select_table = $('#table_id').selectize({
-                valueField: 'id',
-                labelField: 'name',
-                searchField: ['name']
-            });
-
-            select_table  = $select_table[0].selectize;
-            select_database = $select_database[0].selectize;
-
-            select_table.disable();
-        }
-        document.getElementById('database_id').innerHTML = getTable();
+          });
     </script>
 @endsection

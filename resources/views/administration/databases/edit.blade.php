@@ -15,7 +15,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <form method="POST" action="{{ route('databases.update', $database->id) }}" class="needs-validation" enctype="multipart/form-data" novalidate>
+                <form method="POST" action="{{ route('databases.update', $database->id) }}" class="needs-validation" novalidate>
                     {{ csrf_field() }}
                     {{ method_field('PUT') }}
                     <table class="table">

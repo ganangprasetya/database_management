@@ -61,6 +61,7 @@ class MessageMTController extends Controller
                             'filter' => $filter,
                             'keyword' => $keyword
                         ]);
+                        DB::disconnect('csr');
                         $no_prefix = substr($global_phone, 0, 5);
                         $name_prefix = NULL;
                         $telkomsel = ["62811","62812","62813","62821","62822","62823","62851","62852","62853"];

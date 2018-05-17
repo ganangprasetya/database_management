@@ -52,4 +52,11 @@ class TableController extends Controller
         alert()->success('Table '.$request->name.' has been added!', 'Success');
         return back();
     }
+
+    public function edit($id)
+    {
+        $databases = Database::all(['id','name']);
+        $table = TableDatabase::findOrFail($id);
+        return view(self::VIEW_PATH.'.edit')->with(compact('table','databases'));
+    }
 }
