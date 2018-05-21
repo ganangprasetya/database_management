@@ -15,12 +15,40 @@ class TableController extends Controller
 {
     const VIEW_PATH = "administration.tables";
     
-    public function index()
+    public function index(Request $request)
     {
         $paginate_limit = env('PAGINATE_LIMIT', 10);
 
         // search roles
         $tables = TableDatabase::latest()->paginate($paginate_limit);
+        if(count($request->query()) > 0){
+            $filter = $request->query('filter');
+            $keyword = $request->query('keyword');
+
+            switch($filter){
+                case "database":
+                    $database = Database::where('name', 'like', '%'.$keyword.'%')->first();
+                    if($database == NULL){
+                        $tables = TableDatabase::where('database_id', '%'.$keyword.'%')->latest()->paginate($paginate_limit);
+                    }else{
+                        $tables = TableDatabase::where('database_id', $database->id)->latest()->paginate($paginate_limit);
+                        $tables->appends([
+                            'filter' => $filter,
+                            'keyword' => $keyword
+                        ]);
+                    }
+                    break;
+                case "name":
+                    $tables = TableDatabase::where('name', 'like', '%'.$keyword.'%')->latest()->paginate($paginate_limit);
+                    $tables->appends([
+                        'filter' => $filter,
+                        'keyword' => $keyword
+                    ]);
+                    break;
+                default:
+                    $tables = TableDatabase::where('name', 'like', '%'.$keyword.'%')->latest()->paginate($paginate_limit);
+            }
+        }
         $offset = $tables->perPage() * ($tables->currentPage() - 1);
         return view(self::VIEW_PATH.'.index')->with(compact('tables', 'offset'));
     }
