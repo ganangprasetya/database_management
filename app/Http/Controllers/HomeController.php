@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Database;
+use App\TableDatabase;
+use App\TemporaryDatabase;
 use App\User;
 use Carbon\Carbon;
 use DB;
@@ -29,6 +31,8 @@ class HomeController extends Controller
     {
         $databases = Database::get()->count();
         $users = User::get()->count();
-        return view('dashboard', compact('databases','users'));
+        $tables = TableDatabase::get()->count();
+        $actives = TemporaryDatabase::get()->count();
+        return view('dashboard', compact('databases','users','tables','actives'));
     }
 }

@@ -43,6 +43,30 @@
                         <a href="{{ route('users.manage') }}" style="color:#2196F3;">View Details <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
+                <div class="card card-position text-white">
+                    <div class="card-header" style="background-color:#009688;">
+                        <i class="fa fa-table fa-5x"></i>
+                        <div class="card-title-position">
+                            <p style="font-size:50px;">{{ $tables }}</p>
+                            <p style="margin-top:-20px;"> Tables</p>
+                        </div>
+                    </div>
+                    <div class="card-footer" style="text-align:right;">
+                        <a href="{{ route('tables.manage') }}" style="color:#009688;">View Details <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="card card-position text-white">
+                    <div class="card-header" style="background-color:#673AB7;">
+                        <i class="fa fa-users fa-5x"></i>
+                        <div class="card-title-position">
+                            <p style="font-size:50px;">{{ $actives }}</p>
+                            <p style="margin-top:-20px;"> Active Users</p>
+                        </div>
+                    </div>
+                    <div class="card-footer" style="text-align:right;">
+                        <a href="{{ route('databases.userdb') }}" style="color:#673AB7;">View Details <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
             @endrole
         </div>
     </div>
