@@ -7,7 +7,7 @@ require './vendor/deployer/recipes/recipe/npm.php';
 // Project name
 set('application', 'html');
 set('ssh_multiplexing', true);
-set('repository', 'git@gitlab.com:byonchat-team/personal-shopper-v2.git');
+set('repository', 'git@github.com/ganangprasetya/database_management.git');
 set('clear_use_sudo', true);
 set('keep_releases', 5);
 

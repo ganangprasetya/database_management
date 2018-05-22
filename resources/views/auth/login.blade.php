@@ -37,7 +37,7 @@
             </div>
             @endif
 
-            <div class="mx-auto" style="font-family: gothic;color:white;display:table;font-size: 5em;">P R O J E C T&nbsp;&nbsp;&nbsp;&nbsp;S M S</div>
+            <div class="mx-auto" style="font-family: gothic;color:white;display:table;font-size: 5em;">S M S&nbsp;&nbsp;&nbsp;&nbsp;M O N I T O R I N G</div>
 
             <div class="mx-auto text-center" id="kotaklogin">
                 <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate style="top: 110px;position: relative;left: 80px;width:240px;">
@@ -51,7 +51,7 @@
                 </form>
             </div>
 
-            <div class="mx-auto" id="tempatCopyrightLogin">Copyright &COPY; 2017 ByonChat. All Rights Reserved</div>
+            <div class="mx-auto" id="tempatCopyrightLogin">Copyright &COPY; 2018 Dartmedia. All Rights Reserved</div>
         </div>
 
     </body>

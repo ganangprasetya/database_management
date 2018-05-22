@@ -34,7 +34,7 @@
 
         <link rel="stylesheet" href="{{ asset('css/css.css') }}"/>
 
-        <title>ByonChat Workforce Web Administration</title>
+        <title>SMS Monitoring Web Administration</title>
     </head>
 
     <body class="container-fluid pl-0 pr-0">
@@ -77,7 +77,7 @@
             </div>
 
             <footer class="text-center fixed-bottom">
-                <span>Copyright &copy;2017 ByonChat. All Rights Reserved</span>
+                <span>Copyright &copy;2018 Dartmedia. All Rights Reserved</span>
             </footer>
         </div>
         <script src="https://code.highcharts.com/stock/highstock.js"></script>
