@@ -45,21 +45,9 @@ task('environment', function () {
     ]);
 })->desc('Environment setup');
 
-desc('Remove raja ongkir backup file');
-task('rajaongkir:clean', function(){
-    $output = run('cd {{release_path}}/vendor/rizalafani/rajaongkirlaravel/src && rm RajaOngkirBackup.php');
-    writeln('<info>Raja ongkir backup has been deleted.</info>');
-});
-
 desc('Generate application key');
 task('artisan:key:generate', function () {
     $output = run('{{bin/php}} {{release_path}}/artisan key:generate --force');
-    writeln('<info>' . $output . '</info>');
-});
-
-desc('Generate JWT key');
-task('artisan:jwt:secret', function () {
-    $output = run('{{bin/php}} {{release_path}}/artisan jwt:secret --force');
     writeln('<info>' . $output . '</info>');
 });
 
@@ -78,16 +66,12 @@ task('composer:dump', function(){
 after('deploy:update_code', 'npm:install');
 // compile assets
 after('npm:install', 'npm:production');
-// remove raja ongkir backup
-after('deploy:vendors', 'rajaongkir:clean');
 // composer dump autoloading class
 after('rajaongkir:clean', 'composer:dump');
 // copy .env.production to .env
 after('deploy:writable', 'environment');
 // generate app key
 after('environment', 'artisan:key:generate');
-// generate jwt secret key
-after('artisan:key:generate', 'artisan:jwt:secret');
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
 
