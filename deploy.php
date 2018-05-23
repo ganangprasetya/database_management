@@ -23,7 +23,7 @@ set('allow_anonymous_stats', false);
 
 // Hosts
 
-host('pershop.byonchat.com')
+host('172.104.55.34/dartmedia')
     ->set('deploy_path', '/var/www/{{application}}')
     ->identityFile('~/.ssh/id_rsa')
     ->forwardAgent(true)
