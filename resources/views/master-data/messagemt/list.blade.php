@@ -151,6 +151,7 @@
                         <div class="card-body" style="color:black;">
                             <p>We checked below messages already successfully submitted to {{ $name_prefix }}.</br>
                             We'll check with {{ $name_prefix }} and revert you soon.</p></br>
+                            <p>Below are the logs: </p>
                             <table>
                                 <thead>
                                     <tr>
@@ -174,7 +175,7 @@
                                                 $sentdate = date_create($messagemt->sentdate);
                                             @endphp
                                             <tr>
-                                                <td>Tes</td>
+                                                <td>{{ $messagemt->userid }}</td>
                                                 <td>{{ $messagemt->messageid }}</td>
                                                 <td>{{ $messagemt->original }}</td>
                                                 <td>{{ $messagemt->sendto }}</td>
